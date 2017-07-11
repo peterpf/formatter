@@ -21,28 +21,24 @@ var styleFiles = [
 ];
 var htmlFiles = './*.html';
 
-var jsDestination = 'dist/';
-var cssDestination = 'dist/';
-var htmlDestintation = 'dist/';
-
-
+var destination = 'doc/';
 
 gulp.task('minify-css', function(){
     return gulp.src(styleFiles)
         .pipe(concat('styles.css'))
-        .pipe(gulp.dest(cssDestination))
+        .pipe(gulp.dest(destination))
         .pipe(rename('styles.min.css'))
         .pipe(cleanCss())
-        .pipe(gulp.dest(cssDestination));
+        .pipe(gulp.dest(destination));
 });
 
 gulp.task('minify-js', function(){
     return gulp.src(jsFiles)
         .pipe(concat('scripts.js'))
-        .pipe(gulp.dest(jsDestination))
+        .pipe(gulp.dest(destination))
         .pipe(rename('scripts.min.js'))
         .pipe(cleanc())
-        .pipe(gulp.dest(jsDestination));
+        .pipe(gulp.dest(destination));
 });
 
 gulp.task('minify-html', function(){
@@ -52,7 +48,7 @@ gulp.task('minify-html', function(){
             collapseInlineTagWhitespace: true,
             removeComments: true
         }))
-        .pipe(gulp.dest(htmlDestintation));
+        .pipe(gulp.dest(destination));
 });
 
 gulp.task('build', function(callback){
