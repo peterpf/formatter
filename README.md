@@ -4,6 +4,8 @@
 
 Check out the `SHOW EXAMPLE` button ;)
 
+_The colors are taken from the [material design palette](https://material.io/guidelines/style/color.html#color-color-palette)_
+
 Take a json array and paste it into the `Input` text area. As example serves following snippet:
 
 ```JSON

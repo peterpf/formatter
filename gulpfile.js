@@ -21,7 +21,7 @@ var styleFiles = [
 ];
 var htmlFiles = './*.html';
 
-var destination = 'doc/';
+var destination = 'dist/';
 
 gulp.task('minify-css', function(){
     return gulp.src(styleFiles)
