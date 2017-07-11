@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <link href="node_modules/@material/ripple/dist/mdc.ripple.min.css" rel="stylesheet">
+        <link href="node_modules/@material/button/dist/mdc.button.min.css" rel="stylesheet">
+        <link href="node_modules/@material/textfield/dist/mdc.textfield.min.css" rel="stylesheet">
+        <link href="node_modules/@material/layout-grid/dist/mdc.layout-grid.min.css" rel="stylesheet">
+        <script src="node_modules/@material/ripple/dist/mdc.ripple.min.js"></script>
+        <script src="node_modules/@material/textfield/dist/mdc.textfield.min.js"></script>
+    </head>
+    <body>
+        <div class="mdc-layout-grid">
+            <div class="mdc-layout-grid__inner">
+                <!-- INPUT JSON -->
+                <div class="mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--span-6-desktop">
+                    <div class="mdc-textfield mdc-textfield--multiline mdc-textfield--fullwidth">
+                        <textarea  id="input_area"
+                                    class="mdc-textfield__input"
+                                    placeholder="[{'name':'white', 'hex':'ffffff'}]"
+                                    rows="10" cols="40"
+                                    aria-label="Full-Width multiline textfield"></textarea>
+                        <label for="input_area" class="mdc-textfield__label">Input</label>
+                    </div>
+                </div>
+
+                <!-- INPUT FORMATTING -->
+                <div class="mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--span-6-desktop">
+                    <div class="mdc-textfield mdc-textfield--multiline mdc-textfield--fullwidth">
+                        <textarea   id="formatting_area"
+                                    class="mdc-textfield__input"
+                                    placeholder="$name$ : $hex$"
+                                    rows="10" cols="40"
+                                    aria-label="Full-Width multiline textfield"></textarea>
+                        <label for="formatting_area" class="mdc-textfield__label">Formatting</label>
+                    </div>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="mdc-layout-grid__cell--span-12">
+                    <button class="mdc-button mdc-ripple"
+                            onclick="onBtnConvert()">
+                        Convert
+                    </button>
+                    <button class="mdc-button mdc-ripple"
+                            onclick="onBtnCopyToClipboard()">
+                        Copy output to clipboard
+                    </button>
+                </div>
+                <div class="mdc-layout-grid__cell--span-12" style="height: 8px;">
+
+                </div>
+
+                <!-- OUTPUT -->
+                <div class="mdc-layout-grid__cell--span-12">
+                    <div class="mdc-textfield mdc-textfield--multiline mdc-textfield--fullwidth">
+                        <textarea   id="output_area"
+                                    class="mdc-textfield__input"
+                                    placeholder=""
+                                    rows="5" cols="40"
+                                    aria-label="Full-Width multiline textfield"></textarea>
+                        <label for="output_area" class="mdc-textfield__label">Output</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Initialize material elements
+            var buttons = document.querySelectorAll('.mdc-ripple');
+            for(i=0; i <buttons.length; i++){
+                mdc.ripple.MDCRipple.attachTo(buttons[i]);
+            }
+            
+            var textfields =document.querySelectorAll('.mdc-textfield');
+            for(i=0; i <textfields.length; i++){
+                mdc.textfield.MDCTextfield.attachTo(textfields[i]);
+            }
+
+            // Get instances of IO fields
+            var inputField = document.getElementById('input_area');
+            var formattingField = document.getElementById('formatting_area');
+            var outputField = document.getElementById('output_area');
+
+            inputField.focus();
+
+            function onBtnConvert() {
+                var inputText = inputField.value;
+                var formattingText = formattingField.value;
+                
+                // Check user input
+                if(inputText.length == 0){
+                    window.alert("Input is empty");
+                    return;
+                }
+                if(formattingText.length == 0){
+                    window.alert("Formatting is empty");
+                    return;
+                }
+
+                // Parse input to JSON array
+                var outputText = "";
+                var jsonArray;
+                try{
+                    jsonArray = JSON.parse(inputText);
+                    if(jsonArray.length == 0){
+                        window.alert("Input must be a JSON Array!");
+                    }
+                }catch(exception){
+                    console.log(exception);
+                    window.alert("Error parsing input -> see console");
+                    return;
+                }
+
+                // Perform mapping of input <-> custom-formatting
+                jsonArray.map(function(jsonObject){
+                    var keys = Object.keys(jsonObject);
+                    var tmpText =formattingText;
+                    keys.map(function(key){
+                        var value =jsonObject[key];
+                        tmpText =tmpText.replaceAll('$'+key+'$', value);
+                    });
+                    outputText += tmpText;
+                });
+                // Display output
+                outputField.value = outputText;
+
+                // Workaround to fix position of floating label after setting text
+                outputField.focus();
+                outputField.blur();
+                // TODO: Scroll outputField to top
+            }
+
+            function onBtnCopyToClipboard(){
+                var outputText = outputField.value;
+                window.prompt("Copy to clipboard: Ctrl+C, Enter", outputText);
+            }
+
+            /**
+             * Search for a pattern and replace all occurences.
+             * @param search The pattern
+             * @param replacement Replace all occurences of 'search' with this string
+             */
+            String.prototype.replaceAll = function(search, replacement) {
+                var target = this;
+                return target.split(search).join(replacement);
+            };
+
+        </script>
+    </body>
+</html>
