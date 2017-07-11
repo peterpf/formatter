@@ -59,3 +59,8 @@ gulp.task('build', function(callback){
         callback
     );
 });
+
+gulp.task('build-docs', function(callback){
+    destination = 'docs/';
+    runSequence('build', callback);
+});
