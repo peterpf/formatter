@@ -26,7 +26,7 @@ var destination = 'dist/';
 gulp.task('minify-css', function(){
     return gulp.src(styleFiles)
         .pipe(concat('styles.css'))
-        .pipe(gulp.dest(destination))
+        //.pipe(gulp.dest(destination))
         .pipe(rename('styles.min.css'))
         .pipe(cleanCss())
         .pipe(gulp.dest(destination));
@@ -35,7 +35,7 @@ gulp.task('minify-css', function(){
 gulp.task('minify-js', function(){
     return gulp.src(jsFiles)
         .pipe(concat('scripts.js'))
-        .pipe(gulp.dest(destination))
+        //.pipe(gulp.dest(destination))
         .pipe(rename('scripts.min.js'))
         .pipe(cleanc())
         .pipe(gulp.dest(destination));
