@@ -3,6 +3,7 @@
     "short_name": "Formatter",
     "start_url": "index.html",
     "display": "standalone",
+    "lang": "en-US",
     "background_color": "#607D8B",
     "theme_color": "#607D8B",
     "description": "A JSONArray to custom-format converter.",
@@ -28,9 +29,5 @@
             "type": "image/png"
         }
     ],
-    "related_applications": [
-        {
-            "platform": "web"
-        }
-    ]
+    "related_applications": []
 }
