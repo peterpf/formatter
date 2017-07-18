@@ -20,6 +20,7 @@ var styleFiles = [
     'node_modules/@material/layout-grid/dist/mdc.layout-grid.min.css',
 ];
 var htmlFiles = './*.html';
+var iconFiles = './images/*.png';
 var faviconFile = 'favicon.png';
 var favicon2File = 'favicon_192_192.png';
 var manifestFile = 'manifest.json';
@@ -54,18 +55,17 @@ gulp.task('minify-html', function(){
         .pipe(gulp.dest(destination));
 });
 
-gulp.task('assets', function(){
+gulp.task('images', function(){
     return gulp.src([
             faviconFile,
-            favicon2File,
-            manifestFile
+            iconFiles
         ])
-        .pipe(gulp.dest(destination));
+        .pipe(gulp.dest(destination + 'images/'));
 });
 
 gulp.task('build', function(callback){
     runSequence(
-        'assets',
+        'images',
         'minify-css',
         'minify-js',
         'minify-html',
