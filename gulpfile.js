@@ -20,6 +20,7 @@ var styleFiles = [
     'node_modules/@material/layout-grid/dist/mdc.layout-grid.min.css',
 ];
 var htmlFiles = './*.html';
+var faviconFile = 'favicon.png';
 
 var destination = 'dist/';
 
@@ -51,8 +52,14 @@ gulp.task('minify-html', function(){
         .pipe(gulp.dest(destination));
 });
 
+gulp.task('assets', function(){
+    return gulp.src(faviconFile)
+        .pipe(gulp.dest(destination));
+});
+
 gulp.task('build', function(callback){
     runSequence(
+        'assets',
         'minify-css',
         'minify-js',
         'minify-html',
