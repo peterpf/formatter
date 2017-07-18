@@ -63,9 +63,15 @@ gulp.task('images', function(){
         .pipe(gulp.dest(destination + 'images/'));
 });
 
+gulp.task('copyManifest', function(){
+    return gulp.src(manifestFile)
+        .pipe(gulp.dest(destination));
+});
+
 gulp.task('build', function(callback){
     runSequence(
         'images',
+        'copyManifest',
         'minify-css',
         'minify-js',
         'minify-html',
