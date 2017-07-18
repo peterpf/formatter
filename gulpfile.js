@@ -21,6 +21,7 @@ var styleFiles = [
 ];
 var htmlFiles = './*.html';
 var faviconFile = 'favicon.png';
+var favicon2File = 'favicon_192_192.png';
 var manifestFile = 'manifest.json';
 
 var destination = 'dist/';
@@ -55,7 +56,8 @@ gulp.task('minify-html', function(){
 
 gulp.task('assets', function(){
     return gulp.src([
-            faviconFile, 
+            faviconFile,
+            favicon2File,
             manifestFile
         ])
         .pipe(gulp.dest(destination));
