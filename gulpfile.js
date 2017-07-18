@@ -21,6 +21,7 @@ var styleFiles = [
 ];
 var htmlFiles = './*.html';
 var faviconFile = 'favicon.png';
+var manifestFile = 'manifest.json';
 
 var destination = 'dist/';
 
@@ -53,7 +54,10 @@ gulp.task('minify-html', function(){
 });
 
 gulp.task('assets', function(){
-    return gulp.src(faviconFile)
+    return gulp.src([
+            faviconFile, 
+            manifestFile
+        ])
         .pipe(gulp.dest(destination));
 });
 
@@ -70,4 +74,8 @@ gulp.task('build', function(callback){
 gulp.task('build-docs', function(callback){
     destination = 'docs/';
     runSequence('build', callback);
+});
+
+gulp.task('build-all', function(callback){
+    runSequence('build', 'build-docs', callback);
 });
